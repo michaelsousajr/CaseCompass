@@ -1,14 +1,38 @@
 import './App.css';
+import { CSVLink } from "react-csv";
+
+const data = [
+  { caseId: "1", caseName: "Morrow", email: "sokyt@mailinator.com", age: "36" },
+];
+
+const headers = [
+  { label: "Case Id", key: "caseId" },
+  { label: "Case Name", key: "caseName" },
+  { label: "Injured Name", key: "injured Name" },
+  { label: "Offenders Name", key: "offendersName" }
+];
+
+const caseId = "1"
+
+const csvReport = {
+  data: data,
+  headers: headers,
+  filename: caseId + '_Report.csv'
+};
 
 function App() {
+
+  function onFormSubmit(){
+    
+  }
 
   return (
     <div className="App">
       <h2>Fill out the form</h2>
-             <form onSumbit> 
+             <form onSubmit={onFormSubmit()}> 
                 <label>Case ID</label>
                 <br/>
-                <input name='caseId' type='text'/>
+                <input name='caseId' type='text' value={caseId}/>
                 <br/>
                 <label>Case Name</label>
                 <br/>
