@@ -1,10 +1,8 @@
-
-
 <script>
 // Define the fields and their possible values
 const fields = {
-  'Case ID': () => Math.floor(Math.random() * 100000),
-  'Case Name': ['Car Accident', 'Slip and Fall', 'Medical Malpractice'],
+  'CaseID': () => Math.floor(Math.random() * 100000),
+  'CaseName': ['Car Accident', 'Slip and Fall', 'Medical Malpractice'],
   'AI Generated Description': () => `This case involves a ${Math.random() > 0.5 ? 'serious' : 'minor'} injury to the plaintiff.`,
   'Expected Payout for Injured': () => Math.floor(Math.random() * 100000),
   'Injured Name': ['John Doe', 'Jane Doe', 'Bob Smith'],
@@ -50,8 +48,6 @@ console.log('values: ', values);
 
 
 <h1>Case Compass</h1>
-
-<p>values = {values}</p>
 
 <p>Settlement Amount = ${settlement}</p>
 
