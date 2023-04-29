@@ -1,35 +1,45 @@
 import './App.css';
 import { CSVLink } from "react-csv";
 
-const data = [
-  { caseId: "1", caseName: "Morrow", email: "sokyt@mailinator.com", age: "36" },
+var data = [
+  //{ caseId: "1", caseName: "Morrow", email: "sokyt@mailinator.com", age: "36" },
 ];
 
 const headers = [
   { label: "Case Id", key: "caseId" },
   { label: "Case Name", key: "caseName" },
   { label: "Injured Name", key: "injured Name" },
-  { label: "Offenders Name", key: "offendersName" }
+  { label: "Offenders Name", key: "offendersName" },
+  { label: "Pre Settlement Cost", key: "preSettleCost" },
+  { label: "Post Settlement Cost", key: "postSettleCost" },
+  { label: "Recieved Surgury", key: "surgery" },
+  { label: "Catastrophic", key: "catastrophic" }
 ];
-
-const caseId = "1"
 
 const csvReport = {
   data: data,
   headers: headers,
-  filename: caseId + '_Report.csv'
+  filename: 'Report.csv'
 };
 
 function App() {
 
-  function onFormSubmit(){
-    
+  var caseId
+  var caseName 
+  var injuredName
+
+  const onFormSubmit = (e) => {
+    data = [
+      { caseId: caseId, caseName: "Morrow", injuredName: "sokyt@mailinator.com", age: "36" },
+    ];
+    console.log("hello")
+    console.log("hi" + caseId)
   }
 
   return (
     <div className="App">
       <h2>Fill out the form</h2>
-             <form onSubmit={onFormSubmit()}> 
+             <form onSubmit={e=> {onFormSubmit(e)}}> 
                 <label>Case ID</label>
                 <br/>
                 <input name='caseId' type='text' value={caseId}/>
@@ -40,7 +50,7 @@ function App() {
                 <br/>
                 <label>Injured Name</label>
                 <br/>
-                <input name='injuredName' type='text'/>
+                <input name='injuredName' type='text' value={injuredName}/>
                 <br/>
                 <label>Offenders Names</label>
                 <br/>
@@ -118,6 +128,7 @@ function App() {
                 <br/>
                 <input name='offenderGroup' type='text'/>
                 <br/>
+                <CSVLink {...csvReport}>Export to CSV</CSVLink>
                 <input type='submit' value='get expected payout' />
                 <br/>
             </form>
