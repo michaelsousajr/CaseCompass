@@ -1,49 +1,66 @@
+// Importing necessary libraries
 import * as tf from '@tensorflow/tfjs';
 import fs from 'fs';
-import csv from 'csv-parser';
+import neatCsv from 'neat-csv';
 
+// Reading CSV file and preparing data
+fs.readFile('mycsv.csv', async (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
 
-// Load the CSV data
-const results = [];
-fs.createReadStream('mycsv.csv')
-  .pipe(csv())
-  .on('data', (data) => results.push(data))
-  .on('end', () => {
-    const data = results.map((row) => Object.values(row));
-    const headers = Object.keys(results[0]);
-
-    // Split the data into input (X) and output (y) variables
-    const X = data.map((row) => row.slice(0, -1));
-    const y = data.map((row) => row[row.length - 1]);
-
-    // Convert the data to TensorFlow tensors
-    const X_tensor = tf.tensor2d(X);
-    const y_tensor = tf.tensor1d(y);
-
-    // Split the data into training and testing sets
-    // Split the data into training and testing sets
-    const [X_train, X_test, y_train, y_test] = tf.data
-      .zip({ xs: X_tensor, ys: y_tensor })
-      .shuffle(data.length)
-      .batch(Math.floor(data.length * 0.7))
-      //.interleave((batch) => tf.data.zip({ xs: batch.xs, ys: batch.ys }).batch(Math.floor(data.length * 0.2)), 2)
-      .toArray(2);
-
-    // // Define the model architecture
-    const model = tf.sequential();
-    model.add(tf.layers.dense({ units: 1, inputShape: [X[0].length] }));
-
-    // Compile the model
-    model.compile({ optimizer: 'sgd', loss: 'meanSquaredError' });
-
-    // Train the model
-    model.fit(X_train, y_train, {
-      epochs: 100,
-      validationData: [X_test, y_test],
-      callbacks: tf.node.tensorBoard('./logs'),
-    });
-
-    // Evaluate the model on the test data
-    const evalOutput = model.evaluate(X_test, y_test);
-    console.log('Test Loss:', evalOutput.dataSync()[0]);
+  const dataset = await neatCsv(data);
+  
+  // Preprocessing data
+  const preprocessedData = dataset.map((row) => {
+    return {
+      TotalMedicalExpenses: parseInt(row['Total Medical Expenses']),
+      MedicalMultiplier: parseFloat(row['Medical Multiplier']),
+      IncomeLost: parseFloat(row['Income Lost']),
+      IncomeMultiplier: parseFloat(row['Income Multiplier']),
+      ValueOfInjuryClaim: parseFloat(row['Value of Injury Claim']),
+    };
   });
+  
+  // Splitting data into features (X) and target (Y)
+  const X = preprocessedData.map((row) => {
+    return [
+      row.TotalMedicalExpenses,
+      row.MedicalMultiplier,
+      row.IncomeLost,
+      row.IncomeMultiplier
+    ];
+  });
+  const Y = preprocessedData.map((row) => {
+    return row.ValueOfInjuryClaim;
+  });
+  
+  // Creating and training linear regression model
+  const model = tf.sequential();
+  model.add(tf.layers.dense({ inputShape: [4], units: 1 }));
+  model.compile({ loss: 'meanSquaredError', optimizer: 'sgd' });
+  const X_tensor = tf.tensor2d(X);
+  const Y_tensor = tf.tensor2d(Y, [Y.length, 1]);
+  await model.fit(X_tensor, Y_tensor, { epochs: 1000 });
+  
+  // Predicting target values
+  const Y_pred_tensor = model.predict(X_tensor);
+  const Y_pred = Array.from(Y_pred_tensor.dataSync());
+  
+  // Evaluating model accuracy 
+  const sumSquaredErrors = Y.reduce((acc, curr, idx) => {
+    const error = curr - Y_pred[idx];
+    if(Number.isNaN(error)){
+      return acc;
+    }
+    return acc + error * error;
+  }, 0);
+
+  const meanSquaredError = sumSquaredErrors / Y.length;
+  
+  //print accuracy
+  console.log(`Mean Squared Error: ${meanSquaredError}`);
+  //console.log(dataset);
+});
+

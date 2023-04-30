@@ -1,31 +1,52 @@
-import * as tf from '@tensorflow/tfjs';
-import { loadCsv } = pkg;
 
-// Define the shape of the input data
-const inputShape = [null, 4];
+// Requiring module
+//const tf = require("@tensorflow/tfjs")
+import * as tf from '@tensorflow/tfjs'; 
+// Sample CSV data link
+const csvUrl = `file://mycsv.csv`;
 
-// Load CSV data
-const csvUrl = 'file://csvfile2.csv';
-const csvDataset = loadCsv(csvUrl, {
-  columnConfigs: {
-    label: {
-      isLabel: true
-    }
-  }
-});
+async function predicateMultipleColoumns(){
+    const list = ['Total Medical Expenses','Medical Multiplier','Income Lost','Income Multiplier','Value of Injury Claim'];
+    
+    const csvDataset = tf.data.csv(
+        csvUrl, {
+        hasHeader: true,
+        columnNames: list,
+        columnConfigss: {
+            indus: {
+                isLabel: true
+            },
+            rad: {
+                isLabel: true
+            },
+            ram: {
+                isLabel: true
+            }
+        },
+        configuredColumnsOnly: true,
+        delimWhitespace: true    
+    });
+    console.log(csvDataset)
+}
 
-// Convert CSV dataset to arrays
-const dataset = await csvDataset.toArray();
-const datasetSize = dataset.length;
-
-// Shuffle the dataset
-const shuffledDataset = tf.data.array(dataset).shuffle(datasetSize);
-
-// Split the dataset into training and testing sets
-const trainDatasetSize = Math.floor(datasetSize * 0.8);
-const trainDataset = shuffledDataset.take(trainDatasetSize).batch(10);
-const testDataset = shuffledDataset.skip(trainDatasetSize).batch(10);
-
-// Define the model architecture
-const model = tf.sequential();
-
+async function predicateSingleColumn() {
+    // We want to predict single column "indus".
+    const list = ['Total Medical Expenses','Medical Multiplier','Income Lost','Income Multiplier','Value of Injury Claim'];
+    const csvDataset = tf.data.csv(
+        csvUrl, {
+        hasHeader: true,
+        columnNames: list,
+        columnConfigs: {
+            indus: {
+                isLabel: true
+            }
+        },
+        configuredColumnsOnly: true,
+        delimWhitespace: true
+    });
+    console.log(csvDataset)
+}
+ 
+// Function call
+//predicateSingleColumn();
+predicateMultipleColoumns();
