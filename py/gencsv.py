@@ -30,7 +30,7 @@ def calculate_value_of_injury_claim(total_medical_expenses, medical_multiplier, 
 responses = []
 
 # Generate 500 random responses and add them to the list
-for i in range(500):
+for i in range(5000):
     total_medical_expenses = random.randint(*total_medical_expenses_range)
     medical_multiplier = round(random.uniform(*medical_multiplier_range), 2)
     income_lost = round(random.gauss(income_lost_average, (income_lost_range[1] - income_lost_range[0]) / 4), 2)
