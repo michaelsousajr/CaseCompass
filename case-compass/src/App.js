@@ -1,50 +1,49 @@
 import './App.css';
-import Logo from "./resources/logo-black-and-yellow.svg";
-import CSV from "./ExportCSV.js";
+import Logo from "./resources/logo-black-and-yellow.svg"
+import CaseLogo from "./resources/CasecompassBlack.png"
+//import CSV from "./ExportCSV.js";
 
 function App() {
 
-  var data = {}
-  var caseId, caseName, totalMedicalExpenses, medicalMuliplier, incomeLost, incomeMultiplier, lostWages, injuredInsurance, offenderInsurance, policeReport, injuredGuiltLiability, offenderGuiltLiability, injuredFL, offenderFL, injuredAge, offendorAge, injuredGroup, offenderGroup, injuredLocalType
+  var caseId, caseName, totalMedicalExpenses, medicalMultiplier, incomeLost, incomeMultiplier, injuredInsurance
 
+  //submit function
   const handleSubmit = event => {
-    event.preventDefault();
-    console.log(caseId)
-    alert(`Your state values: \n 
-            Case Id: ${caseId} \n 
-            You can replace this alert with your process`);
-    setData()
-    console.log(data.medicalMuliplier)
+    event.preventDefault(); //ignore defaults
+    var info = {totalMedicalExpenses, medicalMultiplier, incomeLost, incomeMultiplier}
+
+    //preform calculation in leu of AI algoritmn
+    var  nonEconomic = incomeLost * medicalMultiplier
+    var injuryClaim = (totalMedicalExpenses * medicalMultiplier) + (incomeLost * incomeMultiplier) + nonEconomic
+    //return result 
+    alert(`Results: \n 
+    Value OF Injury Claim: ${injuryClaim} `);
     
   };
 
-
+  //handle input and save to variable in feilds
   function handleCaseIdChanged(event) {
     caseId  = event.target.value
   }function handleCaseNameChanged(event) {
     caseName  = event.target.value
   }function handleTotalMedicalExpensesChanged(event) {
     totalMedicalExpenses  = event.target.value
-  }function handleMedicalMuliplierChanged(event) {
-    medicalMuliplier  = event.target.value
+  }function handleMedicalMultiplierChanged(event) {
+    medicalMultiplier  = event.target.value
   }function handleIncomeLostChanged(event) {
     incomeLost  = event.target.value
   }function handleIncomeMultiplierChanged(event) {
     incomeMultiplier  = event.target.value
   }
 
-  function setData(){
-     var data = [
-      { medicalMuliplier: medicalMuliplier, totalMedicalExpenses: totalMedicalExpenses, incomeLost: incomeLost, incomeMultiplier: incomeMultiplier}
-    ]
-    return data
-  }
-
+  //return HTML body
   return (
     <div className="App">
       <br/>
+      <center>
       <img src={Logo}  alt="mandm"/>
-      <h2>Case Compass</h2>
+      <img src={CaseLogo}  alt="case compass" class= "case"/>
+      </center>
              <form onSubmit={handleSubmit}> 
                 <div class="line">
                 <h3>Enter your Information</h3>
@@ -65,9 +64,9 @@ function App() {
                 <input name='totalMedicalExpenses' type='text' value={totalMedicalExpenses} onChange={handleTotalMedicalExpensesChanged.bind(this)}/>
                 </div>
                 <div class="section">
-                <label>Medical Muliplier</label>
+                <label>Injury Severity 1-3</label>
                 
-                <input name='medicalMultiplier' type='text' value={medicalMuliplier} onChange={handleMedicalMuliplierChanged.bind(this)}/>
+                <input name='medicalMultiplier' type='text' value={medicalMultiplier} onChange={handleMedicalMultiplierChanged.bind(this)}/>
                 </div>
                 <div class="section">
                 <label>Income Lost</label>
@@ -75,17 +74,12 @@ function App() {
                 <input name='incomeLost' type='text' value={incomeLost} onChange={handleIncomeLostChanged.bind(this)}/>
                 </div>
                 <div class="section">
-                <label>Income Multiplier</label>
+                <label>Length of Lost Income 1-3</label>
                 
                 <input name='incomeMultiplier' type='text' value={incomeMultiplier}  onChange={handleIncomeMultiplierChanged.bind(this)}/>
                 </div>
                 <div class="section">
-                <label>Value of Injury Claim</label>
-                
-                <input name='lostWages' type='text' value={lostWages} />
-                </div>
-                <div class="section">
-                <label>Injured Insurance Policy Value</label>
+                <label>Injured Person Insurance Policy Value</label>
                 
                 <input name='injuredInsurance' type='text' value={injuredInsurance} />
                 </div>
@@ -95,39 +89,19 @@ function App() {
                 <input name='offenderInsurance' type='text'  />
                 </div>
                 <div class="section">
-                <label>Police Report</label>
+                <label>Police Report Y/N</label>
                 
                 <input name='policeReport' type='text'  />
                 </div>
                 <div class="section">
-                <label>Injured Guilt Liability 1-4</label>
+                <label>Injured Person Guilt Liability 1-4</label>
                 
                 <input name='injuredGuiltLiability' type='text'/>
-                </div>
+                </div>              
                 <div class="section">
-                <label>Offender Guilt Liability</label>
-                
-                <input name='offenderGuiltLiability' type='text'/>
-                </div>
-                <div class="section">
-                <label>Injured Florida Local</label>
-                
-                <input name='injuredFL' type='text'/>
-                </div>
-                <div class="section">
-                <label>Offender Florida Local</label>
-                
-                <input name='offenderFL' type='text' />
-                </div>
-                <div class="section">
-                <label>Injured Age</label>
+                <label>Injured Person Age</label>
                 
                 <input name='injuredAge' type='text' />
-                </div>
-                <div class="section">
-                <label>Offender Age</label>
-                
-                <input name='offenderAge' type='text'/>
                 </div>
                 <div class="section">
                 <label>Injured Location Type</label>
@@ -135,28 +109,14 @@ function App() {
                 <input name='injuredLocationType' type='text'/>
                 </div>
                 <div class="section">
-                <label>Injured Group</label>
+                <label>Number Injured</label>
                 
                 <input name='injuredGroup' type='text' />
                 </div>
-                <div class="section">
-                <label>Offender Group</label>
                 
-                <input name='offenderGroup' type='text'/>
-                </div>
-                <CSV data=
-                {
-                  setData()
-                }
-                  ></CSV>
                 <br/>
                 </div>
             </form>
-            <div>
-              <p> Value of Injury Claim:</p>
-              <p>{data.caseId}</p>
-    
-            </div>
     </div>
   );
 }

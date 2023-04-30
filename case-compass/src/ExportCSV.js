@@ -4,18 +4,21 @@ import { CSVLink } from "react-csv";
 const headers = [
 
     { label: "Total Medical Expenses", key: "totalMedicalExpenses" },
-    { label: "Medical Mulipler", key: "postSettleCost" },
+    { label: "Medical Mulipler", key: "medicalMultiplier" },
     { label: "Income Lost", key: "incomeLost" },
-    { label: "Catastrophic", key: "catastrophic" },
-    { label: "Injured Lost Wages", key: "lostWages" },
-    { label: "Injured Insurance Policy Value", key: "injuredInsurance" },
-    { label: "Police Report", key: "policeReport" },
-    { label: "Injured Lost Wages", key: "lostWages" },
-    { label: "Injured Guilt Liability", key: "injuredLiability" },
-    { label: "Offender Guilt Liability", key: "offenderLiability" }
+    { label: "Income Multiplier", key: "incomeMultiplier" },
+    { label: "Value of Injury", key: "lostWages" },
+    
   ];
 
-function ExportCSV({data}) {
+function ExportCSV({totalMedicalExpenses, medicalMultiplier}) {
+
+    const data = [
+
+        { totalMedicalExpenses: totalMedicalExpenses, medicalMultiplier: medicalMultiplier }
+        
+      ];
+
 
     const csvReport = {
         data: data,
