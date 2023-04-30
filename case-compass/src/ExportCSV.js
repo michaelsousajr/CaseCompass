@@ -18,8 +18,8 @@ function ExportCSV({totalMedicalExpenses, medicalMultiplier, incomeLost, incomeM
     var  nonEconomic = incomeLost * medicalMultiplier
     var injuryClaim = (totalMedicalExpenses * medicalMultiplier) + (incomeLost * incomeMultiplier) + nonEconomic
 
+    //input for CSV
     const data = [
-
         { totalMedicalExpenses: totalMedicalExpenses, medicalMultiplier: medicalMultiplier, incomeLost: incomeLost, incomeMultiplier:incomeMultiplier, injuryClaim:injuryClaim }
       ];
 
