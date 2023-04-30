@@ -17,8 +17,7 @@ function App() {
     var injuryClaim = (totalMedicalExpenses * medicalMultiplier) + (incomeLost * incomeMultiplier) + nonEconomic
     //return result 
     alert(`Results: \n 
-    Value OF Injury Claim: ${injuryClaim} `);
-    
+    Value OF Injury Claim: $${injuryClaim}`);
   };
 
   //handle input and save to variable in feilds
@@ -113,7 +112,7 @@ function App() {
                 
                 <input name='injuredGroup' type='text' />
                 </div>
-                
+                <input type='submit' value='get value of injury claim' />
                 <br/>
                 </div>
             </form>
