@@ -1,17 +1,32 @@
-import fs from 'fs';
+import * as tf from '@tensorflow/tfjs';
 
-// Read in the generated JSON file
-const outputJson = fs.readFileSync('model.json');
+async function predictSettlementAmount(inputData) {
+  // Load the model
+  const model = tf.loadLayersModel('model.json');
 
-// Parse the JSON data
-const outputData = JSON.parse(outputJson);
+  // Preprocess the input data
+  const preprocessedData = [
+    parseFloat(inputData.totalMedicalExpenses),
+    parseFloat(inputData.medicalMultiplier),
+    parseFloat(inputData.incomeLost),
+    parseFloat(inputData.incomeMultiplier),
+  ];
+  const x = tf.tensor2d(preprocessedData, [1, 4]);
 
-// Perform some analysis on the output data to verify its correctness
-// For example, you could check that the output contains certain expected keys and values
+  // Make a prediction
+  const prediction = model.predict(x).dataSync()[0];
 
-if (outputData.hasOwnProperty('prediction')) {
-  console.log(`Prediction: ${outputData.prediction}`);
-} else {
-  console.log('Output does not contain a prediction.');
+  // Return the prediction
+  return prediction;
 }
+
+// Example usage
+const inputData = {
+  totalMedicalExpenses: '5000',
+  medicalMultiplier: '1.5',
+  incomeLost: '2000',
+  incomeMultiplier: '2.0',
+};
+const settlementAmount = await predictSettlementAmount(inputData);
+console.log('Settlement amount:', settlementAmount);
 

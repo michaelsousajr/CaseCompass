@@ -1,10 +1,11 @@
 import * as tf from '@tensorflow/tfjs-node';
 import fs from 'fs';
 
-//load model
-const buffer = fs.readFileSync('./model.json');
-const model = tf.loadLayersModel(buffer);
-
+// Load the model
+const modelPath = 'file://model.json';
+const modelData = fs.readFileSync(modelPath, 'utf8');
+//const model = await tf.loadLayersModel(tf.io.fromJSON(modelData));
+const model = await tf.loadLayersModel(JSON.parse(modelData));
 
 // Define a function to predict the settlement amount
 function predictSettlementAmount(totalMedicalExpenses, medicalMultiplier, incomeLost, incomeMultiplier) {
