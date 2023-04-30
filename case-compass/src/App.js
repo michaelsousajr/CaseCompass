@@ -1,125 +1,121 @@
 import './App.css';
-import { CSVLink } from "react-csv";
-
-const data = [
-  { caseId: "1", caseName: "Morrow", email: "sokyt@mailinator.com", age: "36" },
-];
-
-const headers = [
-  { label: "Case Id", key: "caseId" },
-  { label: "Case Name", key: "caseName" },
-  { label: "Injured Name", key: "injured Name" },
-  { label: "Offenders Name", key: "offendersName" }
-];
-
-const caseId = "1"
-
-const csvReport = {
-  data: data,
-  headers: headers,
-  filename: caseId + '_Report.csv'
-};
+import Logo from "./resources/logo-black-and-yellow.svg"
+import CaseLogo from "./resources/CasecompassBlack.png"
+import CSV from "./ExportCSV.js";
 
 function App() {
 
-  function onFormSubmit(){
-    
+  var caseId, caseName, totalMedicalExpenses, medicalMultiplier, incomeLost, incomeMultiplier, injuredInsurance
+
+  //submit function
+  const handleSubmit = event => {
+    event.preventDefault(); //ignore defaults
+    var info = {totalMedicalExpenses, medicalMultiplier, incomeLost, incomeMultiplier}
+
+    //preform calculation in leu of AI algoritmn
+    var  nonEconomic = incomeLost * medicalMultiplier
+    var injuryClaim = (totalMedicalExpenses * medicalMultiplier) + (incomeLost * incomeMultiplier) + nonEconomic
+    //return result 
+    alert(`Results: \n 
+    Value Of Injury Claim: $${injuryClaim}`);
+  };
+
+  //handle input and save to variable in feilds
+  function handleCaseIdChanged(event) {
+    caseId  = event.target.value
+  }function handleCaseNameChanged(event) {
+    caseName  = event.target.value
+  }function handleTotalMedicalExpensesChanged(event) {
+    totalMedicalExpenses  = event.target.value
+  }function handleMedicalMultiplierChanged(event) {
+    medicalMultiplier  = event.target.value
+  }function handleIncomeLostChanged(event) {
+    incomeLost  = event.target.value
+  }function handleIncomeMultiplierChanged(event) {
+    incomeMultiplier  = event.target.value
   }
 
+  //return HTML body
   return (
     <div className="App">
-      <h2>Fill out the form</h2>
-             <form onSubmit={onFormSubmit()}> 
+      <br/>
+      <center>
+      <img src={Logo}  alt="mandm"/>
+      <img src={CaseLogo}  alt="case compass" class= "case"/>
+      </center>
+             <form onSubmit={handleSubmit}> 
+                <div class="line">
+                <h3>Enter your Information</h3>
+                <br/>
+                <div class="section">
                 <label>Case ID</label>
-                <br/>
-                <input name='caseId' type='text' value={caseId}/>
-                <br/>
+                
+                <input name='caseId' type='text' value={caseId} onChange={handleCaseIdChanged.bind(this)} />
+                </div>
+                <div class="section">
                 <label>Case Name</label>
-                <br/>
-                <input name='caseName' type='text'/>
-                <br/>
-                <label>Injured Name</label>
-                <br/>
-                <input name='injuredName' type='text'/>
-                <br/>
-                <label>Offenders Names</label>
-                <br/>
-                <input name='offendersName' type='text'/>
-                <br/>
-                <label>Injured Medical Expense- pre-settlement</label>
-                <br/>
-                <input name='preSettleCost' type='text'/>
-                <br/>
-                <label>Expected Medical Expenses -post-settlment</label>
-                <br/>
-                <input name='postSettleCost' type='text'/>
-                <br/>
-                <label>Injured and Recieved Surgery</label>
-                <br/>
-                <input name='surgery' type='text'/>
-                <br/>
-                <label>Catastrophic</label>
-                <br/>
-                <input name='catastrophic' type='text'/>
-                <br/>
-                <label>Injured Lost Wages</label>
-                <br/>
-                <input name='lostWages' type='text'/>
-                <br/>
-                <label>Injured Insurance Policy Value</label>
-                <br/>
-                <input name='insurancePolicyValue' type='text'/>
-                <br/>
+                
+                <input name='caseName' type='text' value={caseName} onChange={handleCaseNameChanged.bind(this)}/>
+                </div>
+                <div class="section">
+                <label>Total Medical Expenses</label>
+                
+                <input name='totalMedicalExpenses' type='text' value={totalMedicalExpenses} onChange={handleTotalMedicalExpensesChanged.bind(this)}/>
+                </div>
+                <div class="section">
+                <label>Injury Severity 1-3</label>
+                
+                <input name='medicalMultiplier' type='text' value={medicalMultiplier} onChange={handleMedicalMultiplierChanged.bind(this)}/>
+                </div>
+                <div class="section">
+                <label>Income Lost</label>
+                
+                <input name='incomeLost' type='text' value={incomeLost} onChange={handleIncomeLostChanged.bind(this)}/>
+                </div>
+                <div class="section">
+                <label>Length of Lost Income 1-3</label>
+                
+                <input name='incomeMultiplier' type='text' value={incomeMultiplier}  onChange={handleIncomeMultiplierChanged.bind(this)}/>
+                </div>
+                <div class="section">
+                <label>Injured Person Insurance Policy Value</label>
+                
+                <input name='injuredInsurance' type='text' value={injuredInsurance} />
+                </div>
+                <div class="section">
                 <label>Offender Insurance Policy Value</label>
-                <br/>
-                <input name='offenderInsurancePolicyValue' type='text'/>
-                <br/>
-                <label>Police Report</label>
-                <br/>
-                <input name='policeReport' type='text'/>
-                <br/>
-                <label>Injured Guilt Liability 1-4</label>
-                <br/>
+              
+                <input name='offenderInsurance' type='text'  />
+                </div>
+                <div class="section">
+                <label>Police Report Y/N</label>
+                
+                <input name='policeReport' type='text'  />
+                </div>
+                <div class="section">
+                <label>Injured Person Guilt Liability 1-4</label>
+                
                 <input name='injuredGuiltLiability' type='text'/>
-                <br/>
-                <label>Offender Guilt Liability</label>
-                <br/>
-                <input name='offenderGuiltLiability' type='text'/>
-                <br/>
-                <label>Injured Florida Local</label>
-                <br/>
-                <input name='injuredFL' type='text'/>
-                <br/>
-                <label>Offender Florida Local</label>
-                <br/>
-                <input name='offenderFL' type='text'/>
-                <br/>
-                <label>Injured Age</label>
-                <br/>
-                <input name='injuredAge' type='text'/>
-                <br/>
-                <label>Offender Age</label>
-                <br/>
-                <input name='offenderAge' type='text'/>
-                <br/>
-                <label>Injured phone number</label>
-                <br/>
-                <input name='injuredPhoneNumber' type='text'/>
-                <br/>
+                </div>              
+                <div class="section">
+                <label>Injured Person Age</label>
+                
+                <input name='injuredAge' type='text' />
+                </div>
+                <div class="section">
                 <label>Injured Location Type</label>
-                <br/>
+                
                 <input name='injuredLocationType' type='text'/>
+                </div>
+                <div class="section">
+                <label>Number Injured</label>
+                
+                <input name='injuredGroup' type='text' />
+                </div>
+                <input type='submit' value='get value of injury claim' />
+                <CSV totalMedicalExpenses = {totalMedicalExpenses} medicalMultiplier = {medicalMultiplier} incomeLost = {incomeLost} incomeMultiplier = {incomeMultiplier}></CSV>
                 <br/>
-                <label>Injured Group</label>
-                <br/>
-                <input name='injuredGroup' type='text'/>
-                <br/>
-                <label>Offender Group</label>
-                <br/>
-                <input name='offenderGroup' type='text'/>
-                <br/>
-                <input type='submit' value='get expected payout' />
-                <br/>
+                </div>
             </form>
     </div>
   );
