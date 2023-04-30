@@ -13,5 +13,11 @@
 		"svelte": "^3.54.0",
 		"vite": "^4.3.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@tensorflow/tfjs": "^4.4.0",
+		"@tensorflow/tfjs-data": "^4.4.0",
+		"@tensorflow/tfjs-node": "^4.4.0",
+		"csv-parser": "^3.0.0"
+	}
 }

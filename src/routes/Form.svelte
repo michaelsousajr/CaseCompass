@@ -1,3 +1,5 @@
+<!-- App.svelte -->
+
 <script>
   import * as tf from '@tensorflow/tfjs';
 
@@ -18,8 +20,7 @@
     link.setAttribute('href', csvContent);
     link.setAttribute('download', 'data.csv');
     document.body.appendChild(link);
-    //creates downloadable link
-    //link.click(); 
+    link.click();
   }
 </script>
 
