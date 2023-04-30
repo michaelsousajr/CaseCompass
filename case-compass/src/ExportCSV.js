@@ -1,6 +1,7 @@
 import './App.css';
 import { CSVLink } from "react-csv";
 
+//headers for CSV
 const headers = [
 
     { label: "Total Medical Expenses", key: "totalMedicalExpenses" },
@@ -11,14 +12,16 @@ const headers = [
     
   ];
 
-function ExportCSV({totalMedicalExpenses, medicalMultiplier}) {
+function ExportCSV({totalMedicalExpenses, medicalMultiplier, incomeLost, incomeMultiplier}) {
+
+    //calculation in leu of AI Guess Algorithmn
+    var  nonEconomic = incomeLost * medicalMultiplier
+    var injuryClaim = (totalMedicalExpenses * medicalMultiplier) + (incomeLost * incomeMultiplier) + nonEconomic
 
     const data = [
 
-        { totalMedicalExpenses: totalMedicalExpenses, medicalMultiplier: medicalMultiplier }
-        
+        { totalMedicalExpenses: totalMedicalExpenses, medicalMultiplier: medicalMultiplier, incomeLost: incomeLost, incomeMultiplier:incomeMultiplier, injuryClaim:injuryClaim }
       ];
-
 
     const csvReport = {
         data: data,
@@ -26,9 +29,10 @@ function ExportCSV({totalMedicalExpenses, medicalMultiplier}) {
         filename: 'report.csv'
       };
 
+      
+
     return(
-        <div>
-            <input type='submit' value='get value of injury claim' />
+        <div class ="csv">
              <CSVLink {...csvReport}>Export to CSV</CSVLink>
         </div>
     )

@@ -1,7 +1,7 @@
 import './App.css';
 import Logo from "./resources/logo-black-and-yellow.svg"
 import CaseLogo from "./resources/CasecompassBlack.png"
-//import CSV from "./ExportCSV.js";
+import CSV from "./ExportCSV.js";
 
 function App() {
 
@@ -17,7 +17,7 @@ function App() {
     var injuryClaim = (totalMedicalExpenses * medicalMultiplier) + (incomeLost * incomeMultiplier) + nonEconomic
     //return result 
     alert(`Results: \n 
-    Value OF Injury Claim: $${injuryClaim}`);
+    Value Of Injury Claim: $${injuryClaim}`);
   };
 
   //handle input and save to variable in feilds
@@ -113,6 +113,7 @@ function App() {
                 <input name='injuredGroup' type='text' />
                 </div>
                 <input type='submit' value='get value of injury claim' />
+                <CSV totalMedicalExpenses = {totalMedicalExpenses} medicalMultiplier = {medicalMultiplier} incomeLost = {incomeLost} incomeMultiplier = {incomeMultiplier}></CSV>
                 <br/>
                 </div>
             </form>
