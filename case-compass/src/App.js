@@ -1,143 +1,162 @@
 import './App.css';
-import { CSVLink } from "react-csv";
-import Logo from "./logo-black-and-yellow.svg";
-
-var data = [
-  //{ caseId: "1", caseName: "Morrow", email: "sokyt@mailinator.com", age: "36" },
-];
-
-const headers = [
-  { label: "Case Id", key: "caseId" },
-  { label: "Case Name", key: "caseName" },
-  { label: "Injured Name", key: "injured Name" },
-  { label: "Offenders Name", key: "offendersName" },
-  { label: "Pre Settlement Cost", key: "preSettleCost" },
-  { label: "Post Settlement Cost", key: "postSettleCost" },
-  { label: "Recieved Surgury", key: "surgery" },
-  { label: "Catastrophic", key: "catastrophic" }
-];
-
-const csvReport = {
-  data: data,
-  headers: headers,
-  filename: 'Report.csv'
-};
+import Logo from "./resources/logo-black-and-yellow.svg";
+import CSV from "./ExportCSV.js";
 
 function App() {
 
-  var caseId
-  var caseName 
-  var injuredName
+  var data = {}
+  var caseId, caseName, totalMedicalExpenses, medicalMuliplier, incomeLost, incomeMultiplier, lostWages, injuredInsurance, offenderInsurance, policeReport, injuredGuiltLiability, offenderGuiltLiability, injuredFL, offenderFL, injuredAge, offendorAge, injuredGroup, offenderGroup, injuredLocalType
 
-  const onFormSubmit = (e) => {
-    data = [
-      { caseId: caseId, caseName: "Morrow", injuredName: "sokyt@mailinator.com", age: "36" },
-    ];
-    console.log("hello")
-    console.log("hi" + caseId)
+  const handleSubmit = event => {
+    event.preventDefault();
+    console.log(caseId)
+    alert(`Your state values: \n 
+            Case Id: ${caseId} \n 
+            You can replace this alert with your process`);
+    setData()
+    console.log(data.medicalMuliplier)
+    
+  };
+
+
+  function handleCaseIdChanged(event) {
+    caseId  = event.target.value
+  }function handleCaseNameChanged(event) {
+    caseName  = event.target.value
+  }function handleTotalMedicalExpensesChanged(event) {
+    totalMedicalExpenses  = event.target.value
+  }function handleMedicalMuliplierChanged(event) {
+    medicalMuliplier  = event.target.value
+  }function handleIncomeLostChanged(event) {
+    incomeLost  = event.target.value
+  }function handleIncomeMultiplierChanged(event) {
+    incomeMultiplier  = event.target.value
+  }
+
+  function setData(){
+     var data = [
+      { medicalMuliplier: medicalMuliplier, totalMedicalExpenses: totalMedicalExpenses, incomeLost: incomeLost, incomeMultiplier: incomeMultiplier}
+    ]
+    return data
   }
 
   return (
     <div className="App">
       <br/>
       <img src={Logo}  alt="mandm"/>
-      <h2>Fill out the form</h2>
-             <form onSubmit={e=> {onFormSubmit(e)}}> 
+      <h2>Case Compass</h2>
+             <form onSubmit={handleSubmit}> 
                 <div class="line">
+                <h3>Enter your Information</h3>
                 <br/>
+                <div class="section">
                 <label>Case ID</label>
                 
-                <input name='caseId' type='text' value={caseId}/>
-                
+                <input name='caseId' type='text' value={caseId} onChange={handleCaseIdChanged.bind(this)} />
+                </div>
+                <div class="section">
                 <label>Case Name</label>
                 
-                <input name='caseName' type='text'/>
+                <input name='caseName' type='text' value={caseName} onChange={handleCaseNameChanged.bind(this)}/>
+                </div>
+                <div class="section">
+                <label>Total Medical Expenses</label>
                 
-                <label>Injured Name</label>
+                <input name='totalMedicalExpenses' type='text' value={totalMedicalExpenses} onChange={handleTotalMedicalExpensesChanged.bind(this)}/>
+                </div>
+                <div class="section">
+                <label>Medical Muliplier</label>
                 
-                <input name='injuredName' type='text' value={injuredName}/>
+                <input name='medicalMultiplier' type='text' value={medicalMuliplier} onChange={handleMedicalMuliplierChanged.bind(this)}/>
+                </div>
+                <div class="section">
+                <label>Income Lost</label>
                 
-                <label>Offenders Names</label>
+                <input name='incomeLost' type='text' value={incomeLost} onChange={handleIncomeLostChanged.bind(this)}/>
+                </div>
+                <div class="section">
+                <label>Income Multiplier</label>
                 
-                <input name='offendersName' type='text'/>
+                <input name='incomeMultiplier' type='text' value={incomeMultiplier}  onChange={handleIncomeMultiplierChanged.bind(this)}/>
+                </div>
+                <div class="section">
+                <label>Value of Injury Claim</label>
                 
-                <label>Injured Medical Expense- pre-settlement</label>
-                
-                <input name='preSettleCost' type='text'/>
-                
-                <label>Expected Medical Expenses -post-settlment</label>
-                
-                <input name='postSettleCost' type='text'/>
-                
-                <label>Injured and Recieved Surgery</label>
-                
-                <input name='surgery' type='text'/>
-                
-                <label>Catastrophic</label>
-                
-                <input name='catastrophic' type='text'/>
-                
-                <label>Injured Lost Wages</label>
-                
-                <input name='lostWages' type='text'/>
-                
+                <input name='lostWages' type='text' value={lostWages} />
+                </div>
+                <div class="section">
                 <label>Injured Insurance Policy Value</label>
                 
-                <input name='insurancePolicyValue' type='text'/>
-               
+                <input name='injuredInsurance' type='text' value={injuredInsurance} />
+                </div>
+                <div class="section">
                 <label>Offender Insurance Policy Value</label>
               
-                <input name='offenderInsurancePolicyValue' type='text'/>
-              
+                <input name='offenderInsurance' type='text'  />
+                </div>
+                <div class="section">
                 <label>Police Report</label>
                 
-                <input name='policeReport' type='text'/>
-                
+                <input name='policeReport' type='text'  />
+                </div>
+                <div class="section">
                 <label>Injured Guilt Liability 1-4</label>
                 
                 <input name='injuredGuiltLiability' type='text'/>
-                
+                </div>
+                <div class="section">
                 <label>Offender Guilt Liability</label>
                 
                 <input name='offenderGuiltLiability' type='text'/>
-                
+                </div>
+                <div class="section">
                 <label>Injured Florida Local</label>
                 
                 <input name='injuredFL' type='text'/>
-                
+                </div>
+                <div class="section">
                 <label>Offender Florida Local</label>
                 
-                <input name='offenderFL' type='text'/>
-                
+                <input name='offenderFL' type='text' />
+                </div>
+                <div class="section">
                 <label>Injured Age</label>
                 
-                <input name='injuredAge' type='text'/>
-                
+                <input name='injuredAge' type='text' />
+                </div>
+                <div class="section">
                 <label>Offender Age</label>
                 
                 <input name='offenderAge' type='text'/>
-                
-                <label>Injured phone number</label>
-                
-                <input name='injuredPhoneNumber' type='text'/>
-                
+                </div>
+                <div class="section">
                 <label>Injured Location Type</label>
                 
                 <input name='injuredLocationType' type='text'/>
-                
+                </div>
+                <div class="section">
                 <label>Injured Group</label>
                 
-                <input name='injuredGroup' type='text'/>
-                
+                <input name='injuredGroup' type='text' />
+                </div>
+                <div class="section">
                 <label>Offender Group</label>
                 
                 <input name='offenderGroup' type='text'/>
-                
-                <CSVLink {...csvReport}>Export to CSV</CSVLink>
-                <input type='submit' value='get expected payout' />
+                </div>
+                <CSV data=
+                {
+                  setData()
+                }
+                  ></CSV>
                 <br/>
                 </div>
             </form>
+            <div>
+              <p> Value of Injury Claim:</p>
+              <p>{data.caseId}</p>
+    
+            </div>
     </div>
   );
 }

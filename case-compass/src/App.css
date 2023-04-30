@@ -34,7 +34,7 @@ label{
 }
 input{
   border-radius: 5px;
-  margin-bottom: 25px;
+  padding-bottom: 25px;
   padding: 5px;
   align-items: right;
   flex-direction: row;
@@ -45,8 +45,20 @@ input{
   justify-content: center;
   align-items: center;
   margin: 0.5px;
+  border-radius: 10px;
+
 
 }
 img{
   justify-content: left;
+}
+.section{
+  flex-direction: row;
+  background-color: rgb(253, 235, 14);
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 25px;
+}
+h3{
+  color: white;
 }
