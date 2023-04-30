@@ -24,12 +24,35 @@ lr.fit(X_train, y_train)
 # Make predictions on the test data
 y_pred = lr.predict(X_test)
 
-# Print the coefficients and intercept of the model
-print("Coefficients:", lr.coef_)
-print("Intercept:", lr.intercept_)
-
 # Print the R-squared score of the model
-print("R-squared score:", lr.score(X_test, y_test))
+accuracy = round(lr.score(X_test, y_test) * 100, 1)
+print("Accuracy Based on the Sample Training Data:", accuracy,'%')
+
+
+TME = input("What are your total Medical Expenses?: ")
+MM = input("What is your Medical Multiplier?(1.5 to 5) depending on severity: ")
+IL = input("What is your income lost?: ")
+IM = input("What is the Income Multiplier?(1.5 to 3)short term to long term effects: ")
+
+new_data_dict = {'Total Medical Expenses': TME , 'Medical Multiplier': MM,'Income Lost':IL,'Income Multiplier':IM}
+
+# Convert the dictionary to a DataFrame
+new_data = pd.DataFrame([new_data_dict])
+
+# Use the trained model to predict the target value for the new data point
+prediction = lr.predict(new_data)
+
+if prediction[0] < 0:
+    prediction[0] *= -1
+
+rounded_prediction = round(prediction[0]*1.2, 1)
+
+print("Predicted Total Value of the Injury Claim: $",rounded_prediction)
+
+
+
+
+
 
 
 
